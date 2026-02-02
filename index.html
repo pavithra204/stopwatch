@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Stopwatch</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #78eea9, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      width: 350px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #fff;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    #display {
+      font-size: 48px;
+      color: #fff;
+      margin-bottom: 30px;
+      letter-spacing: 3px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .start {
+      background: #00ffab;
+      color: #000;
+    }
+
+    .stop {
+      background: #ff5f5f;
+      color: #fff;
+    }
+
+    .reset {
+      background: #ffd36e;
+      color: #000;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>⏱ Stopwatch</h1>
+    <div id="display">00:00:00</div>
+
+    <div class="buttons">
+      <button class="start" onclick="start()">Start</button>
+      <button class="stop" onclick="stop()">Stop</button>
+      <button class="reset" onclick="reset()">Reset</button>
+    </div>
+  </div>
+
+<script>
+  let seconds = 0;
+  let minutes = 0;
+  let hours = 0;
+  let timer = null;
+
+  function start() {
+    if (timer !== null) return;
+
+    timer = setInterval(() => {
+      seconds++;
+
+      if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+      }
+
+      if (minutes === 60) {
+        minutes = 0;
+        hours++;
+      }
+
+      document.getElementById("display").innerText =
+        format(hours) + ":" + format(minutes) + ":" + format(seconds);
+    }, 1000);
+  }
+
+  function stop() {
+    clearInterval(timer);
+    timer = null;
+  }
+
+  function reset() {
+    stop();
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    document.getElementById("display").innerText = "00:00:00";
+  }
+
+  function format(value) {
+    return value < 10 ? "0" + value : value;
+  }
+</script>
+
+</body>
+</html>
